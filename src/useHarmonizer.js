@@ -1,47 +1,33 @@
 import React from "react";
 import useSound from "use-sound";
-import boopSfx from "./assets/bonk.mp3";
-import A from "./assets/A.mp3";
-import B from "./assets/B.mp3";
-import C from "./assets/C.mp3";
-import D from "./assets/D.mp3";
-import E from "./assets/E.mp3";
-import F from "./assets/F.mp3";
-import G from "./assets/G.mp3";
-import Gsharp from "./assets/G#.mp3";
-import highA from "./assets/highA.mp3";
-import highB from "./assets/highB.mp3";
-import highC from "./assets/highC.mp3";
-import highD from "./assets/highD.mp3";
-import highE from "./assets/highE.mp3";
-import highF from "./assets/highF.mp3";
-import highG from "./assets/highG.mp3";
 import drums from "./assets/drums.mp3";
+import * as Tone from "tone";
+
+const sampler = new Tone.Sampler({
+  urls: {
+    C4: "C4.mp3",
+    "D#4": "Ds4.mp3",
+    "F#4": "Fs4.mp3",
+    A4: "A4.mp3",
+  },
+  release: 1,
+  baseUrl: "https://tonejs.github.io/audio/salamander/",
+}).toDestination();
+
+const NOTE_DURATION = 3;
 
 function useHarmonizer() {
-  const [playBoop] = useSound(boopSfx);
-  const [playA] = useSound(A);
-  const [playB] = useSound(B);
-  const [playC] = useSound(C);
-  const [playD] = useSound(D);
-  const [playE] = useSound(E);
-  const [playF] = useSound(F);
-  const [playG] = useSound(G);
-  const [playGsharp] = useSound(Gsharp);
-  const [playhighA] = useSound(highA);
-  const [playhighB] = useSound(highB);
-  const [playhighC] = useSound(highC);
-  const [playhighD] = useSound(highD);
-  const [playhighE] = useSound(highE);
-  const [playhighF] = useSound(highF);
-  const [playhighG] = useSound(highG);
   const [playDrums, data] = useSound(drums);
 
+  const note = (note) => {
+    return () => sampler.triggerAttackRelease(note, NOTE_DURATION);
+  };
+
   const chordMap = new Map([
-    ["cMajor", [playC, playE, playG, playhighC]],
-    ["gMajor", [playG, playB, playhighD, playhighG]],
-    ["dMinor", [playD, playF, playA, playhighC]],
-    ["fMajor7", [playF, playA, playhighC, playhighE]],
+    ["cMajor", [note("C4"), note("E4"), note("G4"), note("C5")]],
+    ["gMajor", [note("G4"), note("B4"), note("D5"), note("G5")]],
+    ["dMinor", [note("D4"), note("F4"), note("A4"), note("C5")]],
+    ["fMajor7", [note("F4"), note("A4"), note("C5"), note("E5")]],
   ]);
 
   const [currentChordSet, setCurrentChordSet] = React.useState("cMajor");
