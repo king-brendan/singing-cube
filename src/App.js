@@ -24,8 +24,8 @@ function App() {
 
   const [cubeRadius, setCubeRadius] = React.useState(INITIAL_CUBE_RADIUS);
   const [cubeColor, setCubeColor] = React.useState(INITIAL_YELLOW);
+  const [cubeSize, setCubeSize] = React.useState(INITIAL_CUBE_SIZE);
   const [drumsPlaying, setDrumsPlaying] = React.useState(false);
-  const [isAudioLoaded, setIsAudioLoaded] = React.useState(false);
 
   const keyMap = new Map([
     [65, 0],
@@ -54,6 +54,7 @@ function App() {
       if (keyMap.has(e.keyCode)) {
         playNote(keyMap.get(e.keyCode));
         setCubeRadius(cubeRadius - 30);
+        setCubeSize(cubeSize + 30);
       } else if (e.keyCode === 32) {
         if (drumsPlaying) {
           stopDrums();
@@ -70,6 +71,7 @@ function App() {
     function handleKeyUp(e) {
       if (keyMap.has(e.keyCode)) {
         setCubeRadius(INITIAL_CUBE_RADIUS);
+        setCubeSize(INITIAL_CUBE_SIZE);
       }
     }
 
@@ -84,23 +86,61 @@ function App() {
   React.useEffect(() => {
     console.log(cubeRadius);
     setCubeColor(colorMap.get(currentChordSet));
-    setCubeRadius(cubeRadius - 20);
+    setCubeRadius(INITIAL_CUBE_RADIUS);
+    setCubeSize(INITIAL_CUBE_SIZE);
   }, [currentChordSet]);
 
   return (
     <div
       style={{
-        marginTop: "50px",
         justifyContent: "center",
         alignItems: "center",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <AnimatedDot finalRadius={cubeRadius} initialColor={cubeColor} />
-      <h2 style={{ marginTop: "100px" }}>A, S, D, F to play me.</h2>
-      <h2>J, K, L, ; to change me.</h2>
-      <h2>Space Bar to get funky .</h2>
+      <div
+        style={{
+          marginTop: "50px",
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <AnimatedDot
+          finalSize={cubeSize}
+          finalRadius={cubeRadius}
+          initialColor={cubeColor}
+        />
+      </div>
+      <div
+        style={{
+          marginTop: "50px",
+          marginBottom: "160px",
+          border: "solid",
+          width: "24%",
+          borderRadius: "20px",
+          position: "absolute",
+          bottom: 0,
+          backgroundColor: "#d7e5fc",
+        }}
+      >
+        <div
+          style={{
+            marginTop: "10px",
+            marginBottom: "10px",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h2>A, S, D, F to play me.</h2>
+          <h2>J, K, L, ; to change me.</h2>
+          <h2>Space Bar to get funky.</h2>
+        </div>
+      </div>
     </div>
   );
 }

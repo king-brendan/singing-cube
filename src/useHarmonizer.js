@@ -14,6 +14,8 @@ const sampler = new Tone.Sampler({
   baseUrl: "https://tonejs.github.io/audio/salamander/",
 }).toDestination();
 
+Tone.context.lookAhead = 0;
+
 const NOTE_DURATION = 3;
 
 function useHarmonizer() {
@@ -24,10 +26,10 @@ function useHarmonizer() {
   };
 
   const chordMap = new Map([
-    ["cMajor", [note("C4"), note("E4"), note("G4"), note("C5")]],
-    ["gMajor", [note("G4"), note("B4"), note("D5"), note("G5")]],
-    ["dMinor", [note("D4"), note("F4"), note("A4"), note("C5")]],
-    ["fMajor7", [note("F4"), note("A4"), note("C5"), note("E5")]],
+    ["cMajor", [note("C3"), note("E4"), note("G4"), note("C5")]],
+    ["gMajor", [note("G2"), note("B4"), note("D5"), note("G5")]],
+    ["dMinor", [note("D3"), note("F4"), note("A4"), note("C5")]],
+    ["fMajor7", [note("F3"), note("A4"), note("C5"), note("E5")]],
   ]);
 
   const [currentChordSet, setCurrentChordSet] = React.useState("cMajor");
