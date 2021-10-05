@@ -26,9 +26,6 @@ function AnimatedDot(props) {
         transition={{
           type: "tween",
           ease: "easeInOut",
-          //   repeat: Infinity,
-          //   repeatType: "reverse",
-          //   repeatDelay: 1,
           duration: 0.5,
         }}
       />
